@@ -7,6 +7,7 @@ from . import (
     models,
     parse,
     predict,
+    realtime,
     prep,
     spect_params,
     train,

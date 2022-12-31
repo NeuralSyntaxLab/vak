@@ -8,6 +8,7 @@ from .dataloader import DataLoaderConfig
 from .eval import EvalConfig
 from .learncurve import LearncurveConfig
 from .predict import PredictConfig
+from .realtime import RealtimeConfig
 from .prep import PrepConfig
 from .spect_params import SpectParamsConfig
 from .train import TrainConfig
@@ -18,6 +19,7 @@ SECTION_CLASSES = {
     "EVAL": EvalConfig,
     "LEARNCURVE": LearncurveConfig,
     "PREDICT": PredictConfig,
+    "REALTIME": RealtimeConfig,
     "PREP": PrepConfig,
     "SPECT_PARAMS": SpectParamsConfig,
     "TRAIN": TrainConfig,
@@ -42,6 +44,7 @@ REQUIRED_OPTIONS = {
         "labelmap_path",
         "models",
     ],
+    "REALTIME": None,
     "PREP": [
         "data_dir",
         "output_dir",

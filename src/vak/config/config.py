@@ -5,6 +5,7 @@ from .dataloader import DataLoaderConfig
 from .eval import EvalConfig
 from .learncurve import LearncurveConfig
 from .predict import PredictConfig
+from .realtime import RealtimeConfig
 from .prep import PrepConfig
 from .spect_params import SpectParamsConfig
 from .train import TrainConfig
@@ -28,6 +29,8 @@ class Config:
         represents ``[EVAL]`` section of config.toml file
     predict : vak.config.predict.PredictConfig
         represents ``[PREDICT]`` section of config.toml file.
+    realtime : vak.config.realtime.RealtimeConfig
+        represents ``[REALTIME]`` section of config.toml file.
     learncurve : vak.config.learncurve.LearncurveConfig
         represents ``[LEARNCURVE]`` section of config.toml file
     """
@@ -43,6 +46,7 @@ class Config:
     train = attr.ib(validator=optional(instance_of(TrainConfig)), default=None)
     eval = attr.ib(validator=optional(instance_of(EvalConfig)), default=None)
     predict = attr.ib(validator=optional(instance_of(PredictConfig)), default=None)
+    realtime = attr.ib(validator=optional(instance_of(RealtimeConfig)), default=None)
     learncurve = attr.ib(
         validator=optional(instance_of(LearncurveConfig)), default=None
     )

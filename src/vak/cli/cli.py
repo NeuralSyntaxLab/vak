@@ -22,6 +22,9 @@ def prep(toml_path):
     from .prep import prep
     prep(toml_path=toml_path)
 
+def realtime(toml_path):
+    from .realtime import realtime
+    realtime(toml_path=toml_path)
 
 COMMAND_FUNCTION_MAP = {
     "prep": prep,
@@ -29,6 +32,7 @@ COMMAND_FUNCTION_MAP = {
     "eval": eval,
     "predict": predict,
     "learncurve": learncurve,
+    "realtime": realtime,
 }
 
 

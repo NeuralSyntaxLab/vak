@@ -11,4 +11,5 @@ __all__ = [
     "predict",
     "prep",
     "train",
+    "realtime",
 ]

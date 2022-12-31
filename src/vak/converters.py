@@ -1,5 +1,9 @@
 from pathlib import Path
+import json
 from distutils.util import strtobool
+from .realtime_triggers.triggers import TRIGGER_TYPES, TransitionTrigger
+from .realtime_triggers.actions import AVAILABLE_ACTIONS
+
 
 
 def bool_from_str(value):
@@ -151,3 +155,38 @@ def labelset_to_set(labelset):
                     "Labels must be strings or integers."
                 )
         return set(labelset_out)
+
+def json_path_to_trigger_list(json_path):
+    """Opens the path to the json file, and uses it to create rules. 
+    Raises type errors if the file is not formatted as triggers - 
+    as you can't validate after converting (the convertion will fail or the validation message will be very ambigious).
+    """
+    triggers_file = open(Path(json_path).expanduser(), 'r')
+    triggers_json = json.load(triggers_file)
+
+    if not "triggers" in triggers_json:
+        raise TypeError("No trigger list in this JSON! Please refer to the example file.")
+    
+    for trig in triggers_json["triggers"]:
+        if not "type" in trig:
+            raise TypeError(f"'{trig}' has no type! Please refer to the example file.")
+        if not trig["type"] in TRIGGER_TYPES:
+            raise TypeError(f"No such trigger type as {trig['type']}")
+        if not "callback" in trig:
+            raise TypeError(f"'{trig}' has no callback! Please refer to the example file.")
+        if not trig["callback"] in AVAILABLE_ACTIONS:
+            raise TypeError(f"{trig['callback']} is an unknown callback! Please refer to the example file.")
+
+        # TODO: This is ugly. Maybe create a trigger factory.
+        if trig["type"] == "Transition":
+            if not "from" in trig:
+                raise TypeError("Transision triggers should have a 'from' field")
+            if not "to" in trig and len(trig["to"]) == 1:
+                raise TypeError("Transision triggers should have a 'to' field")
+
+    trig_list = []
+    for trigger_json in triggers_json["triggers"]:
+        if trigger_json["type"] == "transition":
+            trig_list.append(TransitionTrigger(AVAILABLE_ACTIONS[trigger_json["callback"]], trigger_json["from"], trigger_json["to"]))
+    
+    return trig_list
